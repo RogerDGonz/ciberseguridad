@@ -1,0 +1,11 @@
+#Registrar el tráfico que circula por todas las interfaces de red de la máquina firewall.
+ip any any -> any any (msg:"Registro de todo el tráfico"; sid:1000001;)
+
+#Generar una alerta cada vez que firewall reciba una petición ping procedente de la máquina srv_interno.
+alert icmp [192.168.1.2] any -> any any (msg:"Ping desde srv_interno"; sid:1000002;)
+
+#Añadir una regla que detecte intentos de conexión desde la máquina srv_externo hacia el servicio web disponible en firewall.
+alert tcp [192.168.1.1] any -> [192.168.1.100] 80 (msg:"Intento de conexión desde srv_externo al servicio web"; sid:1000003;)
+
+#4- Añadir una regla que genere una alerta en caso de detectarse una exploración de puertos tipo XMAS TREE.
+alert tcp any any -> any any (flags: PUF; msg:"Exploración de puertos tipo XMAS TREE"; sid:1000004;)
